@@ -22,7 +22,8 @@
             "jquery": "~1.11.1",
             "mini-event": "~1.0.2",
             "moment": "~2.7.0",
-            "underscore": "~1.5.2"
+            "underscore": "~1.5.2",
+            "datatables-treegrid": "~1.0.0"
         }
     },
     "dependencies": {},

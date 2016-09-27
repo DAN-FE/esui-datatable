@@ -14,7 +14,7 @@ define(
         var DataTable = require('../DataTable');
         var $ = require('jquery');
         var _ = require('underscore');
-        require('../dataTables.treeGrid');
+        require('datatables-treegrid');
 
         /**
          * 表格子行扩展

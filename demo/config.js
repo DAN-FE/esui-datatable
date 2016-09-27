@@ -3,7 +3,7 @@
  * @author fe
  */
 require.config({
-    'baseUrl': '../',
+    'baseUrl': '../src',
     'paths': {},
     'packages': [
         {
@@ -28,12 +28,12 @@ require.config({
         },
         {
             'name': 'eicons',
-            'location': '../dep/eicons/1.0.0-beta.1/src',
+            'location': '../dep/eicons/1.0.0/src',
             'main': 'main.less'
         },
         {
             'name': 'esf',
-            'location': '../dep/esf/1.0.0-rc.2/src'
+            'location': '../dep/esf/1.0.0/src'
         },
         {
             'name': 'est',
@@ -58,6 +58,11 @@ require.config({
             'name': 'datatables.net',
             'location': '../src',
             'main': 'datatables'
+        },
+        {
+            'name': 'datatables-treegrid',
+            'location': '../dep/datatables-treegrid/1.0.0',
+            'main': 'dataTables.treeGrid'
         }
     ]
 });
