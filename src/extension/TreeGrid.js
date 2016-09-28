@@ -68,15 +68,27 @@ define(
                         return data;
                     };
 
+                    var options = target.getDataTableExtendOptions();
+                    target.getDataTableExtendOptions = function () {
+                        return _.extend(options, {
+                            treeGrid: {
+                                left: this.treeGridLeft,
+                                expandIcon: this.plusIcon,
+                                collapseIcon: this.minusIcon
+                            },
+                            select: this.select
+                        });
+                    };
+
                     var originalBindEvents = target.bindEvents;
 
                     target.bindEvents = function () {
                         originalBindEvents.call(target);
 
                         target.dataTable.on('click', 'td.treegrid-control', function () {
-                            target.resetBodyClass(target, target.fields);
-                            target.resetSelectMode(target, target.selectMode);
-                            target.resetSelect(target, target.select);
+                            target.resetBodyClass(target.fields);
+                            target.resetSelectMode(target.selectMode);
+                            target.resetSelect(target.select);
                         });
                     };
                 },

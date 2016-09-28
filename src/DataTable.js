@@ -20,8 +20,6 @@ define(
         // page客户端分页 与 全选 全不选 存在性能问题
         require('./dataTables');
         require('./dataTables.select');
-        require('./dataTables.fixedColumns');
-        require('./dataTables.colReorder');
 
         var DataTable = eoo.create(
             Control,
@@ -72,7 +70,7 @@ define(
                     this.dataTable.data().rows.add(datasource);
                     this.dataTable.draw();
                     $('tr', this.dataTable.table().header()).removeClass('selected');
-                    resetSelect(this, this.select);
+                    this.resetSelect(this.select);
                     this.fire('bodyChange');
                     this.fire('select', {selectedIndex: []});
                 },
@@ -97,7 +95,6 @@ define(
                     //     return;
                     // }
                     isSelected ? this.dataTable.rows().select() : this.dataTable.rows().deselect();
-                    this.dataTable.fixedColumns().relayout();
                 },
 
                 /**
@@ -171,6 +168,17 @@ define(
                     cell.node().innerHTML = text;
                 },
 
+
+                /**
+                 * 提供一个datatable初始化时补充配置的接口
+                 *
+                 * @public
+                 * @return {Object}
+                 */
+                getDataTableExtendOptions: function () {
+                    return {};
+                },
+
                 /**
                  * 初始化表格体子控件
                  *
@@ -234,7 +242,9 @@ define(
                     var scrollContainer = $(this.dataTable.table().body()).parents('.dataTables_scrollBody');
 
                     var fixedColumnsDom = null;
-                    if (dataTable.fixedColumns().settings()[0]._oFixedColumns) {
+                    if (dataTable.fixedColumns 
+                        && dataTable.fixedColumns().settings()
+                        && dataTable.fixedColumns().settings()[0]._oFixedColumns) {
                         fixedColumnsDom = dataTable.fixedColumns().settings()[0]._oFixedColumns.dom;
                     }
 
@@ -242,7 +252,7 @@ define(
                         $('th.select-checkbox', header).on('click', function (e) {
                             headerTr.toggleClass('selected');
                             that.setAllRowSelected(headerTr.hasClass('selected'));
-                            dataTable.fixedColumns().relayout();
+                            that.fire('selectall');
                         });
                     }
                     dataTable.on('select', function (e, dt, type, indexes) {
@@ -272,14 +282,6 @@ define(
                             total: info.recordsTotal,
                             pages: info.pages
                         });
-                    });
-
-                    dataTable.on('column-reorder', function (e, settings, details) {
-                        that.fire('columnreorder', {
-                            from: details.from,
-                            to: details.to
-                        });
-                        dataTable.fixedColumns().relayout();
                     });
 
                     if (fixedColumnsDom) {
@@ -374,7 +376,6 @@ define(
                         scrollY: table.scrollY,
                         scrollBarVis: true,
                         scrollCollapse: true,
-                        select: table.select,
                         language: {
                             emptyTable: table.noDataHtml,
                             paginate: {
@@ -384,17 +385,11 @@ define(
                             processing: table.processingText,
                             lengthMenu: table.lengthMenu
                         },
-                        treeGrid: {
-                            left: table.treeGridLeft,
-                            expandIcon: table.plusIcon,
-                            collapseIcon: table.minusIcon
-                        },
-                        fixedColumns: false,
-                        colReorder: table.colReorder,
                         autoWidth: table.autoWidth,
                         columnDefs: getColumnDefs(table, fields)
                     };
-                    return $(cNode).DataTable(u.extend(options, table.extendOptions));
+                    options = u.extend(options, table.extendOptions, table.getDataTableExtendOptions());
+                    return $(cNode).DataTable(options);
                 },
 
                 /**
@@ -426,34 +421,53 @@ define(
                 /**
                  * 重置body中的一些class
                  *
-                 * @param {ui.DataTable} table table控件实例
                  * @param {Array} fields field的配置
                  * @public
                  */
-                resetBodyClass: function (table, fields) {
-                    resetBodyClass(table, fields);
+                resetBodyClass: function (fields) {
+                    resetBodyClass(this, fields);
                 },
 
                 /**
                  * 重置select
                  *
                  * @public
-                 * @param {ui.DataTable} table table控件实例
                  * @param {boolean} select 是否select
                  */
-                resetSelect: function (table, select) {
-                    resetSelect(table, select);
+                resetSelect: function (select) {
+                    resetSelect(this, select);
                 },
 
                 /**
                  * 重置select的模式
                  *
                  * @public
-                 * @param {ui.DataTable} table table控件实例
                  * @param {string} selectMode select的模式
                  */
-                resetSelectMode: function (table, selectMode) {
-                    resetSelectMode(table, selectMode);
+                resetSelectMode: function (selectMode) {
+                    resetSelectMode(this, selectMode);
+                },
+
+
+                /**
+                 * 重置排序
+                 *
+                 * @public
+                 * @param {boolean} sortable 是否可排序
+                 */
+                resetSortable: function(sortable) {
+                    resetSortable(this, sortable);
+                },
+
+                /**
+                 * 重置排序规则
+                 *
+                 * @private
+                 * @param {string} orderBy 排序的基准
+                 * @param {string} order 升序或降序
+                 */
+                resetFieldOrderable: function (orderBy, order) {
+                    resetFieldOrderable(this, orderBy, order);
                 },
 
                 /**
@@ -481,9 +495,9 @@ define(
                             table.dataTable = dataTable;
                             table.helper.initChildren(dataTable.table().header());
                             resetBodyClass(table, fields);
-                            resetSortable(table, table.sortable);
-                            resetSelectMode(table, table.selectMode);
-                            resetSelect(table, table.select);
+                            table.resetSortable(table.sortable);
+                            table.resetSelectMode(table.selectMode);
+                            table.resetSelect(table.select);
                             table.bindEvents();
                             table.adjustWidth();
                         }
@@ -491,19 +505,19 @@ define(
                     {
                         name: 'selectMode',
                         paint: function (table, selectMode) {
-                            resetSelectMode(table, selectMode);
+                            table.resetSelectMode(selectMode);
                         }
                     },
                     {
                         name: 'sortable',
                         paint: function (table, sortable) {
-                            resetSortable(table, sortable);
+                            table.resetSortable(sortable);
                         }
                     },
                     {
                         name: ['orderBy', 'order'],
                         paint: function (table, orderBy, order) {
-                            resetFieldOrderable(table, orderBy, order);
+                            table.resetFieldOrderable(orderBy, order);
                         }
                     },
                     {
@@ -514,7 +528,7 @@ define(
                         // 4. os: 可以shift/ctrl
                         name: 'select',
                         paint: function (table, select) {
-                            resetSelect(table, select);
+                            table.resetSelect(select);
                         }
                     },
                     {
@@ -734,7 +748,6 @@ define(
             if (!sortable) {
                 theads.removeClass('sorting sorting_asc sorting_desc');
                 theads.find('i').remove();
-                table.dataTable.fixedColumns().relayout();
                 return;
             }
             var actualFields = analysizeFields(table.fields).fields;
@@ -752,7 +765,6 @@ define(
                     $(head).find('i.ui-table-hsort').remove();
                 }
             });
-            table.dataTable.fixedColumns().relayout();
         }
 
         /**
@@ -794,7 +806,7 @@ define(
                 operationColumn.children(table.helper.getPartClasses('selector-indicator'))
                     .addClass('ui-radio-custom');
             }
-            dataTable.select && dataTable.select.style(select).fixedColumns().relayout();
+            dataTable.select && dataTable.select.style(select);
         }
 
         /**
@@ -814,7 +826,6 @@ define(
             else if (selectMode === 'line') {
                 dataTable.select.selector('td');
             }
-            dataTable.fixedColumns().relayout();
         }
 
         /**
@@ -839,7 +850,6 @@ define(
                     $(head).addClass('sorting sorting_' + order);
                 }
             });
-            table.dataTable.fixedColumns().relayout();
         }
 
         /**
@@ -1068,9 +1078,6 @@ define(
             treeGridColumnWidth: 5,
             plusIcon: '<span class="ui-icon-plus-circle ui-eicons-fw"></span>',
             minusIcon: '<span class="ui-icon-minus-circle ui-eicons-fw"></span>',
-            colReorder: false,
-            leftFixedColumns: 0,
-            rightFixedColumns: 0,
             clientPaging: false,
             processingText: '加载中...',
             pagePrevious: '上一页',

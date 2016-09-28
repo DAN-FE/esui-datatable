@@ -51,6 +51,10 @@
                         data-ui="type:DataTable;id:table;columnResizable:true;variants:striped;select:multi;selectMode:box;sortable:true;followHead:true;ajaxUrl:../url/ajax;ajaxMethod:POST;orderBy:id;order:asc"
                         data-ui-extension-tableedit-type="TableEdit"
                         data-ui-extension-autosort-type="AutoSort"
+                        data-ui-extension-colreorder-type="ColReorder"
+                        data-ui-extension-fixedcolumns-type="FixedColumns"
+                        data-ui-col-reorder="true"
+                        data-ui-fixed-columns="true"
                         data-ui-auto-sort="true"
                         data-ui-left-fixed-columns="2"
                         data-ui-right-fixed-columns="2"
@@ -127,7 +131,9 @@
                     'esui/extension/AutoSort',
                     'esui/extension/CustomData',
                     'DataTable',
-                    'extension/TreeGrid'
+                    'extension/TreeGrid',
+                    'extension/ColReorder',
+                    'extension/FixedColumns'
                 ],
                 function (ui) {
                     var fields = [
@@ -212,7 +218,7 @@
                             }
                         }
                     ];
-                    fields = fields.concat(easyFields, easyFields, easyFields);
+                    // fields = fields.concat(easyFields, easyFields, easyFields);
                     var lib = require('esui/lib');
                     var newData = [];
                     for (var i = 0; i !== 16; i++) {
@@ -402,7 +408,7 @@
                     });
 
                     ui.get('resetHead').on('click', function(e) {
-                        ui.get('table').setProperties({followHead: true});
+                        ui.get('subrow').setProperties({followHead: true});
                     });
 
                     ui.get('resetSelectMode').on('click', function(e) {
