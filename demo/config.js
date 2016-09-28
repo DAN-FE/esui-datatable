@@ -63,6 +63,21 @@ require.config({
             'name': 'datatables-treegrid',
             'location': '../dep/datatables-treegrid/1.0.0',
             'main': 'dataTables.treeGrid'
+        },
+        {
+            'name': 'datatables-select',
+            'location': '../dep/datatables-select/1.2.0-rc.3',
+            'main': 'js/dataTables.select'
+        },
+        {
+            'name': 'datatables-fixedcolumns',
+            'location': '../dep/datatables-fixedcolumns/3.2.2-rc.1',
+            'main': 'js/dataTables.fixedColumns'
+        },
+        {
+            'name': 'datatables-colreorder',
+            'location': '../dep/datatables-colreorder/1.3.2-rc.3',
+            'main': 'js/dataTables.colReorder'
         }
     ]
 });

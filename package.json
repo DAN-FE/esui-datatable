@@ -23,7 +23,10 @@
             "mini-event": "~1.0.2",
             "moment": "~2.7.0",
             "underscore": "~1.5.2",
-            "datatables-treegrid": "~1.0.0"
+            "datatables-treegrid": "~1.0.0",
+            "datatables-select": "~1.2.0-rc.3",
+            "datatables-fixedcolumns": "~3.2.2-rc.1",
+            "datatables-colreorder": "~1.3.2-rc.2"
         }
     },
     "dependencies": {},

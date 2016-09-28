@@ -12,7 +12,7 @@ define(
         var Extension = require('esui/Extension');
         var eoo = require('eoo');
         var DataTable = require('../DataTable');
-        require('../dataTables.colReorder');
+        require('datatables-colreorder');
         var u = require('underscore');
 
         /**

@@ -19,7 +19,7 @@ define(
         var Event = require('mini-event');
         // page客户端分页 与 全选 全不选 存在性能问题
         require('./dataTables');
-        require('./dataTables.select');
+        require('datatables-select');
 
         var DataTable = eoo.create(
             Control,

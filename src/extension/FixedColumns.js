@@ -13,7 +13,7 @@ define(
         var eoo = require('eoo');
         var DataTable = require('../DataTable');
         var u = require('underscore');
-        require('../dataTables.fixedColumns');
+        require('datatables-fixedcolumns');
 
         /**
          * 表格子行扩展
