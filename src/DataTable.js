@@ -1,3 +1,12 @@
+/**
+ * ESUI (Enterprise Simple UI)
+ * Copyright 2016 Baidu Inc. All rights reserved.
+ *
+ * @ignore
+ * @file DataTable
+ * @author chuzhenyang(chuzhenyang@baidu.com)
+ *         hongfeng(hongfeng@baidu.com)
+ */
 define(
     function (require) {
         var u = require('underscore');
@@ -342,6 +351,16 @@ define(
                     }, this));
                 },
 
+                /**
+                 * 初始化DataTable
+                 *
+                 * @param {Dom} cNode 要渲染的dom节点
+                 * @param {ui.DataTable} table table控件实例
+                 * @param {Array} datasource 数据源
+                 * @param {Array} fields field的配置
+                 * @return {DataTable}
+                 * @public
+                 */
                 initDataTable: function (cNode, table, datasource, fields) {
                     var options = {
                         dom: 'rtipl',
@@ -378,10 +397,24 @@ define(
                     return $(cNode).DataTable(u.extend(options, table.extendOptions));
                 },
 
+                /**
+                 * 设置subrow内容
+                 *
+                 * @param {string} content 内容
+                 * @param {number} index 行数
+                 * @public
+                 */
                 setSubrowContent: function (content, index) {
                     this.dataTable.row(index).child(content).show();
                 },
 
+                /**
+                 * 获取某行数对应的subrow节点
+                 *
+                 * @param {number} index 行数
+                 * @return {DOM}
+                 * @public
+                 */
                 getSubrowContainer: function (index) {
                     return this.getChild('subrow-panel-' + index);
                 },
@@ -390,14 +423,35 @@ define(
 
                 addHandlers: function () {},
 
+                /**
+                 * 重置body中的一些class
+                 *
+                 * @param {ui.DataTable} table table控件实例
+                 * @param {Array} fields field的配置
+                 * @public
+                 */
                 resetBodyClass: function (table, fields) {
                     resetBodyClass(table, fields);
                 },
 
+                /**
+                 * 重置select
+                 *
+                 * @public
+                 * @param {ui.DataTable} table table控件实例
+                 * @param {boolean} select 是否select
+                 */
                 resetSelect: function (table, select) {
                     resetSelect(table, select);
                 },
 
+                /**
+                 * 重置select的模式
+                 *
+                 * @public
+                 * @param {ui.DataTable} table table控件实例
+                 * @param {string} selectMode select的模式
+                 */
                 resetSelectMode: function (table, selectMode) {
                     resetSelectMode(table, selectMode);
                 },
@@ -499,7 +553,7 @@ define(
                     }
                     else {
                         $(this.dataTable.table().header()).parent().css({
-                            'position': 'static'
+                            position: 'static'
                         });
                     }
                 },
