@@ -55,11 +55,6 @@ require.config({
             'main': 'main'
         },
         {
-            'name': 'datatables.net',
-            'location': '../src',
-            'main': 'datatables'
-        },
-        {
             'name': 'datatables-treegrid',
             'location': '../dep/datatables-treegrid/1.0.0',
             'main': 'dataTables.treeGrid'
@@ -78,6 +73,11 @@ require.config({
             'name': 'datatables-colreorder',
             'location': '../dep/datatables-colreorder/1.3.2-rc.3',
             'main': 'js/dataTables.colReorder'
+        },
+        {
+            'name': 'datatables.net',
+            'location': '../dep/datatables.net/1.10.12-rc.2',
+            'main': 'media/js/jquery.dataTables'
         }
     ]
 });
