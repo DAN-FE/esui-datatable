@@ -1,6 +1,6 @@
 {
-    "name": "dataTable",
-    "version": "0.0.1.alpha.1",
+    "name": "datatable",
+    "version": "1.0.0.alpha.1",
     "description": "edp project",
     "main": "DataTable.js",
     "scripts": {
