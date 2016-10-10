@@ -553,8 +553,10 @@ define(
                     var scrollTop = lib.page.getScrollTop();
                     var dataTable = this.dataTable.table();
                     var mainHeight = dataTable.header().offsetHeight
-                                    + dataTable.body().offsetHeight
-                                    + dataTable.footer().offsetHeight;
+                                    + dataTable.body().offsetHeight;
+                    if (dataTable.footer()) {
+                        mainHeight += dataTable.footer().offsetHeight;
+                    }
                     var followTop = lib.getOffset(this.main).top;
 
                     if (scrollTop > followTop
@@ -997,7 +999,7 @@ define(
          * @return {string} html
          */
         function createFooterHTML(table, foot) {
-            if (!foot) {
+            if (!foot || foot.length === 0) {
                 return '';
             }
 

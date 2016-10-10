@@ -101,6 +101,9 @@ table.fixedHeader-floating tfoot td {
 .@{ui-class-prefix}-datatable table.dataTable thead {
     .sorting {
         cursor: pointer;
+        &:hover {
+            .esui-table-head-sortable-cell-hover-theme();
+        }
     }
     .sorting_asc .ui-table-hsort:before {
         content: "\f0de";
