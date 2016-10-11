@@ -26,6 +26,8 @@
         -webkit-box-sizing: content-box;
         -moz-box-sizing: content-box;
         box-sizing: content-box;
+    }
+    th {
         white-space: nowrap;
     }
 }
@@ -33,6 +35,10 @@
 
 .@{ui-class-prefix}-datatable table.dataTable thead {
     .esui-datatable-head-theme();
+}
+
+.@{ui-class-prefix}-datatable table.dataTable .dataTables_empty {
+    text-align: center;
 }
 
 .@{ui-class-prefix}-datatable table.dataTable tfoot {
