@@ -17,7 +17,6 @@ define(
         var lib = require('esui/lib');
         var $ = require('jquery');
         var Event = require('mini-event');
-        // page客户端分页 与 全选 全不选 存在性能问题
         require('datatables.net');
         require('datatables-select');
 
@@ -242,7 +241,7 @@ define(
                     var scrollContainer = $(this.dataTable.table().body()).parents('.dataTables_scrollBody');
 
                     var fixedColumnsDom = null;
-                    if (dataTable.fixedColumns 
+                    if (dataTable.fixedColumns
                         && dataTable.fixedColumns().settings()
                         && dataTable.fixedColumns().settings()[0]._oFixedColumns) {
                         fixedColumnsDom = dataTable.fixedColumns().settings()[0]._oFixedColumns.dom;
@@ -364,6 +363,9 @@ define(
                  * @public
                  */
                 initDataTable: function (cNode, table, datasource, fields) {
+                    if (!table.autoWidth) {
+                        $(table.main).addClass('fixed-table');
+                    }
                     var options = {
                         dom: 'rtipl',
                         data: datasource,
@@ -1074,7 +1076,7 @@ define(
             subEntry: false,
             treeGrid: false,
             treeGridLeft: 12,
-            autoWidth: false,
+            autoWidth: true,
             selectColumnWidth: 35,
             subEntryColumnWidth: 5,
             treeGridColumnWidth: 5,

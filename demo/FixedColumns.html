@@ -242,6 +242,7 @@
                             field: 'id' ,
                             sortable: true,
                             resizable: true,
+                            width: 100,
                             content: function (item) {
                                 return '<span>' + item.id + '</span>';
                             }
@@ -252,7 +253,7 @@
                             field: 'firstname' ,
                             sortable: true,
                             resizable: true,
-                            width: 1000,
+                            width: 100,
                             content: function (item) {
                                 return item.firstname;
                             }
@@ -318,8 +319,8 @@
                         {
                             title: 'Email',
                             field: 'email',
-                            
-                            width: 500,
+
+                            width: 100,
                             content: function (item) {
                                 return item.email;
                             }
@@ -330,24 +331,18 @@
                         newData = newData.concat(data);
                     }
                     var tableProperties = {
-                        followHead: true,
-                        clientPaging: true,
+                        followHead: false,
+                        clientPaging: false,
                         scrollY: 300,
                         scrollX: true,
                         scrollCollapse: true,
                         fixedColumns: true,
-                        extendOptions: {
-                            fixedHeader: {
-                                header: true,
-                                footer: true
-                            }
-                        },
                         // columnDefs: [
                         //     {width: 500, targets: 0}
                         // ],
                         datasource: newData,
                         fields: fields,
-                        autoWidth: false
+                        autoWidth: true
                     };
                     ui.init(document.body,{
                         properties : {

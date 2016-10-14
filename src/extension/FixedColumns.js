@@ -6,6 +6,11 @@
  * @file FixedColumns
  * @author chuzhenyang(chuzhenyang@baidu.com)
  */
+
+ // TODO: 还有几个bug要处理
+ //       1. 与followHead一起用会有一些问题
+ //       2. autoWidth是false的时候 出现一些问题
+ //       3. 窗口缩放后有可能出现滚动不同步的现象
 define(
     function (require) {
         var esui = require('esui/main');
@@ -50,9 +55,11 @@ define(
 
                     var options = target.getDataTableExtendOptions();
                     target.getDataTableExtendOptions = function () {
+                        var leftFixedColumns = this.leftFixedColumns;
+                        !target.select && leftFixedColumns++;
                         return u.extend(options, {
                             fixedColumns: {
-                                leftColumns: this.leftFixedColumns,
+                                leftColumns: leftFixedColumns,
                                 rightColumns: this.rightFixedColumns
                             }
                         });
