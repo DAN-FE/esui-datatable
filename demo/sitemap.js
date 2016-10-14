@@ -4,36 +4,16 @@
  * @author fe
  */
 function genNavigator() {
-    var navItems = '<li><a href="BoxGroup.html">BoxGroup</a></li>'
-        + '<li><a href="Button.html">Button</a></li>'
-        + '<li><a href="Calendar.html">Calendar</a></li>'
-        + '<li><a href="Checkbox.html">Checkbox</a></li>'
-        + '<li><a href="commandMenu.html">Command Menu</a></li>'
-        + '<li><a href="Crumb.html">Crumb</a></li>'
-        + '<li><a href="Dialog.html">Dialog</a></li>'
-        + '<li><a href="Form.html">Form</a></li>'
-        + '<li><a href="Label.html">Label</a></li>'
-        + '<li><a href="Link.html">Link</a></li>'
-        + '<li><a href="MonthView.html">Month View</a></li>'
-        + '<li><a href="Pager.html">Pager</a></li>'
-        + '<li><a href="Panel.html">Panel</a></li>'
-        + '<li><a href="RangeCalendar.html">Range Calendar</a></li>'
-        + '<li><a href="RichCalendar.html">Rich Calendar</a></li>'
-        + '<li><a href="Region.html">Region</a></li>'
-        + '<li><a href="Schedule.html">Schedule</a></li>'
+    var navItems = '<li><a href="Head.html">Head</a></li>'
+        + '<li><a href="Foot.html">Foot</a></li>'
+        + '<li><a href="Data.html">Data</a></li>'
+        + '<li><a href="Resize.html">Resize</a></li>'
         + '<li><a href="Select.html">Select</a></li>'
-        // '<li><a href="Sidebar.html">Sidebar</a></li>' +
-        + '<li><a href="SearchBox.html">SearchBox</a></li>'
-        + '<li><a href="Tab.html">Tab</a></li>'
-        + '<li><a href="Table.html">Table</a></li>'
-        + '<li><a href="TextBox.html">TextBox</a></li>'
-        + '<li><a href="TextLine.html">TextLine</a></li>'
-        + '<li><a href="Tip.html">Tip</a></li>'
-        + '<li><a href="TipLayer.html">TipLayer</a></li>'
-        + '<li><a href="Tree.html">Tree</a></li>'
-        + '<li><a href="Toast.html">Toast</a></li>'
-        + '<li><a href="ValidityLabel.html">Validity</a></li>'
-        + '<li><a href="Wizard.html">Wizard</a></li>';
+        + '<li><a href="FixedColumns.html">FixedColumns</a></li>'
+        + '<li><a href="ColReorder.html">ColReorder</a></li>'
+        + '<li><a href="Subrow.html">Subrow</a></li>'
+        + '<li><a href="TreeGrid.html">TreeGrid</a></li>';
+
     var navigator = document.getElementById('navigator');
     navigator.innerHTML = navItems;
     var url = window.location.pathname;
