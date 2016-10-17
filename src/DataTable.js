@@ -317,9 +317,6 @@ define(
                         dataTable.row(index).child().hide();
                     });
 
-
-                    this.helper.addDOMEvent(window, 'scroll', this.headReseter);
-
                     scrollContainer.on('scroll', function (e) {
                         that.fire('scroll');
                         resetFixedHeadLeft(that, scrollContainer);
@@ -540,6 +537,16 @@ define(
                             table.adjustWidth();
                             table.fire('resize');
                         }
+                    },
+                    {
+                        name: 'followHead',
+                        paint: function (table, followHead) {
+                            initFollowHead(table);
+                            table.helper.removeDOMEvent(window, 'scroll', table.headReseter);
+                            if (followHead) {
+                                table.helper.addDOMEvent(window, 'scroll', table.headReseter);
+                            }
+                        }
                     }
                 ),
 
@@ -559,7 +566,12 @@ define(
                     if (dataTable.footer()) {
                         mainHeight += dataTable.footer().offsetHeight;
                     }
-                    var followTop = lib.getOffset(this.main).top;
+                    var followTop = this.followTop;
+
+                    // 如果不启用缓存，则需要每次滚动都做判断并获取了
+                    if (this.noFollowHeadCache) {
+                        resetFollowOffset(this);
+                    }
 
                     if (scrollTop > followTop
                         && (scrollTop - followTop < mainHeight)) {
@@ -716,6 +728,30 @@ define(
                 columns.push(column);
             });
             return columns;
+        }
+
+        /**
+         * 初始化FollowHead
+         *
+         * @private
+         * @param {ui.Table} table table控件实例
+         */
+        function initFollowHead(table) {
+            if (table.followHead && !table.noFollowHeadCache) {
+                resetFollowOffset(table);
+            }
+        }
+
+        /**
+         * 重置FollowDoms的offset
+         *
+         * @private
+         * @param {ui.DataTable} table table控件实例
+         */
+        function resetFollowOffset(table) {
+            var followOffest = lib.getOffset(table.main);
+            table.followTop = followOffest.top;
+            table.followLeft = followOffest.left;
         }
 
         /**
