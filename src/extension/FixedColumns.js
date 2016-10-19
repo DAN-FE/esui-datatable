@@ -57,12 +57,21 @@ define(
                     target.getDataTableExtendOptions = function () {
                         var leftFixedColumns = this.leftFixedColumns;
                         !target.select && leftFixedColumns++;
-                        return u.extend(options, {
+                        var fixedColumnsOption = {
                             fixedColumns: {
                                 leftColumns: leftFixedColumns,
                                 rightColumns: this.rightFixedColumns
                             }
-                        });
+                        };
+                        if (this.colReorder) {
+                            fixedColumnsOption = u.extend(fixedColumnsOption, {
+                                colReorder: {
+                                    fixedColumnsLeft: leftFixedColumns,
+                                    fixedColumnsRight: this.rightFixedColumns
+                                }
+                            });
+                        }
+                        return u.extend(options, fixedColumnsOption);
                     };
 
                     var originalResetSortable = target.resetSortable;
@@ -94,16 +103,18 @@ define(
 
                     target.setAllRowSelected = function (isSelected) {
                         originalSetAllRowSelected.call(this, isSelected);
-                        this.dataTable.fixedColumns().relayout();
+                        var fixedColumnsDom = this.dataTable.fixedColumns().settings()[0]._oFixedColumns.dom.clone;
+                        var leftHeader = fixedColumnsDom.left.header;
+                        if (leftHeader) {
+                            $('tr', leftHeader).toggleClass('selected');
+                        }
                     };
 
                     target.headReseter = function () {
                         originalHeadReseter.call(this);
-                        // var fixedColumnsDom = this.dataTable.fixedColumns().settings()[0]._oFixedColumns.dom.clone;
-                    }
-
-                    target.on('columnreorder', fixedColumnsHandler);
-                    target.on('selectall', fixedColumnsHandler);
+                        var headerPosition = $(this.dataTable.table().header()).parent().css('position');
+                        setFixedColumnsHeaderStyle(this, headerPosition);
+                    };
 
                     this.$super(arguments);
                 },
@@ -120,15 +131,39 @@ define(
                         return;
                     }
 
-                    target.un('columnreorder', fixedColumnsHandler);
-                    target.un('selectall', fixedColumnsHandler);
                     this.$super(arguments);
                 }
             }
         );
 
-        function fixedColumnsHandler() {
-            this.dataTable.fixedColumns().relayout();
+        /**
+         * 设置fixedHeader的style
+         *
+         * @param {ui.DataTable} table table控件实例
+         * @param {string} type 要设置的type
+         * @private
+         */
+        function setFixedColumnsHeaderStyle(table, type) {
+            var fixedColumnsDom = table.dataTable.fixedColumns().settings()[0]._oFixedColumns.dom.clone;
+            var leftHeader = fixedColumnsDom.left.header;
+            var rightHeader = fixedColumnsDom.right.header;
+            var leftHeaderWidth = $(leftHeader).width();
+            var rightHeaderWidth = $(rightHeader).width();
+            var positionStyle = {
+                position: type
+            };
+            var fixedStyle = {
+                'top': table.followHeadOffset,
+                'z-index': table.zIndex + 2
+            };
+            if (type === 'fixed') {
+                $(leftHeader).css(u.extend(positionStyle, fixedStyle, {width: leftHeaderWidth}));
+                $(rightHeader).css(u.extend(positionStyle, fixedStyle, {width: rightHeaderWidth}));
+            }
+            else if (type === 'static') {
+                $(leftHeader).css(u.extend(positionStyle, {width: leftHeaderWidth}));
+                $(rightHeader).css(u.extend(positionStyle, {width: rightHeaderWidth}));
+            }
         }
 
         esui.registerExtension(FixedColumns);

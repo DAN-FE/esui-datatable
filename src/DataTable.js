@@ -454,7 +454,7 @@ define(
                  * @public
                  * @param {boolean} sortable 是否可排序
                  */
-                resetSortable: function(sortable) {
+                resetSortable: function (sortable) {
                     resetSortable(this, sortable);
                 },
 
@@ -560,12 +560,7 @@ define(
                         return;
                     }
                     var scrollTop = lib.page.getScrollTop();
-                    var dataTable = this.dataTable.table();
-                    var mainHeight = dataTable.header().offsetHeight
-                                    + dataTable.body().offsetHeight;
-                    if (dataTable.footer()) {
-                        mainHeight += dataTable.footer().offsetHeight;
-                    }
+                    var mainHeight = this.main.getBoundingClientRect().height;
                     var followTop = this.followTop;
 
                     // 如果不启用缓存，则需要每次滚动都做判断并获取了

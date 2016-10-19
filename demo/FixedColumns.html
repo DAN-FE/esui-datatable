@@ -123,8 +123,8 @@
                 <script type="text/sample">
                     // 设置fixedColumns=true
                     var tableProperties = {
-                        followHead: true,
-                        clientPaging: true,
+                        followHead: false,
+                        clientPaging: false,
                         scrollY: 300,
                         scrollX: true,
                         scrollCollapse: true,
@@ -135,9 +135,6 @@
                                 footer: true
                             }
                         },
-                        columnDefs: [
-                            {width: 500, targets: 0}
-                        ],
                         datasource: newData,
                         fields: fields,
                     };
